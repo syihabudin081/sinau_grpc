@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package user_service;
+import "user_service_payload.proto";
+import "google/api/annotations.proto";
+import  "google/api/http.proto";
+option go_package = "./pb";
+
+
+service AuthService {
+  rpc Register(RegisterRequest) returns (RegisterResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/register"
+      body: "*"
+    };
+  }
+
+  rpc Login(LoginRequest) returns (LoginResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/login"
+      body: "*"
+    };
+  }
+
+  rpc Validate(ValidateTokenRequest) returns (ValidateTokenResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/validate"
+      body: "*"
+    };
+  }
+
+    rpc GetMe(GetMeRequest) returns (GetMeResponse) {}
+
+      rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse) {
+    option (google.api.http) = {
+    post: "/v1/auth/refresh"
+        body: "*"
+        };
+        }
+
+  }
+
+
+
+

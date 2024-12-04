@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+
+option go_package = "./pb";
+
+package transaction_service;
+
+enum Status {
+  STATUS_UNSPECIFIED = 0; // Default, status tidak ditentukan
+  STATUS_PENDING = 1;     // Transaksi belum selesai, menunggu konfirmasi atau pemrosesan
+  STATUS_COMPLETED = 2;   // Transaksi berhasil selesai
+  STATUS_FAILED = 3;      // Transaksi gagal
+  STATUS_CANCELLED = 4;   // Transaksi dibatalkan oleh pengguna atau sistem
+  STATUS_REFUNDED = 5;    // Transaksi telah direfund
+}
+
+message AddTransactionRequest {
+  uint64 product_id = 1;
+  uint64 user_id = 2;
+  int32 quantity = 3;
+  Status status = 4;
+  string note = 5;
+}
+
+message AddTransactionResponse {
+  string message = 1;
+}
+
+message GetTransactionRequest {
+  string transaction_id = 1;
+  Status status = 2;
+}
+
+message GetTransactionResponse {
+  uint64 product_id = 1;
+  uint64 user_id = 2;
+  int32 quantity = 3;
+  Status status = 4;
+  string note = 5;
+  string created_at = 6;
+  string updated_at = 7;
+}
+
+message ApproveTransactionRequest{
+  string transaction_id = 1;
+}
+
+message ApproveTransactionResponse{
+  string message=1;
+}
+
+
+message ListTransactionRequest {
+  string user_id = 1;
+}
+
+message ListTransactionResponse {
+  repeated GetTransactionResponse transactions = 1;
+}

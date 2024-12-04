@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package product_service;
+option go_package = "./pb";
+
+import "google/api/annotations.proto";
+
+message AddProductRequest {
+  string name = 1;
+  string description = 2;
+  float price = 3;
+  string currency = 4;
+  string category = 5;
+  string image = 6;
+  int32 stock = 7;
+}
+
+message AddProductResponse {
+  string product_id = 1;
+  string message = 2;
+}
+
+message GetProductRequest {
+  string product_id = 1;
+}
+
+message GetProductResponse {
+  string product_id = 1;
+  string name = 2;
+  string description = 3;
+  float price = 4;
+  string currency = 5;
+  string category = 6;
+  string image = 7;
+  int32 stock = 8;
+  string created_at = 9; // Store as string (ISO 8601 or RFC 3339 format)
+  string updated_at = 10;
+}
+
+message UpdateProductRequest {
+  string product_id = 1;
+  string name = 2;
+  string description = 3;
+  float price = 4;
+  string currency = 5;
+  string category = 6;
+  string image = 7;
+  int32 stock = 8;
+}
+
+message UpdateProductResponse {
+  string message = 1;
+}
+
+message DeleteProductRequest {
+  string product_id = 1;
+}
+
+message DeleteProductResponse {
+  string message = 1;
+}
+
+message ListProductRequest {}
+
+message ListProductResponse {
+  repeated GetProductResponse products = 1;
+}

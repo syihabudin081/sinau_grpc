@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+
+import "google/api/annotations.proto";
+import "google/api/http.proto";
+import "transaction_service_payload.proto";
+
+
+option go_package = "./pb";
+package transaction_service;
+
+
+service TransactionService {
+  rpc addTransaction (AddTransactionRequest) returns (AddTransactionResponse) {
+    option (google.api.http) = {
+      post: "/v1/transaction"
+      body: "*"
+    };
+  }
+
+  rpc getTransaction (GetTransactionRequest) returns (GetTransactionResponse) {
+    option (google.api.http) = {
+      get: "/v1/transaction/{transaction_id}"
+    };
+  }
+
+  rpc approveTransaction(ApproveTransactionRequest) returns (ApproveTransactionResponse){
+    option (google.api.http) = {
+      post : "/v1/transaction/approve/{transaction_id}"
+    };
+  }
+
+  rpc listTransaction (ListTransactionRequest) returns (ListTransactionResponse) {
+    option (google.api.http) = {
+      get: "/v1/transaction"
+    };
+  }
+}

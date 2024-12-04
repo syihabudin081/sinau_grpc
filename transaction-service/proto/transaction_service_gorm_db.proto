@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package transaction_service;
+option go_package = "./pb";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/field_behavior.proto";
+import "google/api/http.proto";
+import "transaction_service_payload.proto";
+import "protoc-gen-gorm/options/gorm.proto";
+import "protoc-gen-gorm/types/types.proto";
+
+message TransactionORM {
+  option (gorm.opts) = {
+    ormable: true,
+    table: "products"
+  };
+
+  uint64 id = 1 [(gorm.field).tag = {
+    primary_key: true,
+    not_null: true
+  }];
+
+  uint64 product_id = 2;
+  uint64 user_id = 3;
+  int32 quantity = 4;
+  Status status = 5 [(gorm.field).tag = {not_null: true}];
+  string note = 6;
+  google.protobuf.Timestamp createdAt = 9 [
+    (google.api.field_behavior) = OUTPUT_ONLY,
+    (gorm.field).tag = {not_null: true}
+  ];
+  google.protobuf.Timestamp updatedAt = 10 [
+    (google.api.field_behavior) = OUTPUT_ONLY,
+    (gorm.field).tag = {not_null: true}
+  ];
+}
+

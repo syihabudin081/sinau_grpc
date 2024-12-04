@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package product_service;
+
+option go_package = "./pb";
+
+import "google/api/annotations.proto";
+import  "google/api/http.proto";
+import "transaction_service_payload.proto";
+
+
+service ProductService {
+  rpc addProduct (AddProductRequest) returns (AddProductResponse) {
+    option (google.api.http) = {
+      post: "/v1/product"
+      body: "*"
+    };
+  }
+
+  rpc getProduct (GetProductRequest) returns (GetProductResponse) {
+    option (google.api.http) = {
+      get: "/v1/product/{product_id}"
+    };
+  }
+
+  rpc updateProduct (UpdateProductRequest) returns (UpdateProductResponse) {
+    option (google.api.http) = {
+      put: "/v1/product/{product_id}"
+      body: "*"
+    };
+  }
+
+  rpc deleteProduct (DeleteProductRequest) returns (DeleteProductResponse) {
+    option (google.api.http) = {
+      delete: "/v1/product/{product_id}"
+    };
+  }
+
+  rpc listProduct (ListProductRequest) returns (ListProductResponse) {
+    option (google.api.http) = {
+      get: "/v1/product"
+    };
+  }
+}
+
+
+

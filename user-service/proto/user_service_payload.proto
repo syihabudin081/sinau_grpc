@@ -1,0 +1,69 @@
+syntax = "proto3";
+option go_package = "./pb";
+
+import "google/api/annotations.proto";
+
+
+
+message RegisterRequest {
+  string username = 1;
+  string email = 2;
+  string password = 3;
+  string role = 4;
+}
+
+message RegisterResponse {
+  string user_id = 1;
+  string message = 2;
+}
+
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  string user_id = 1;
+  string token = 2;
+  string refresh_token = 3;
+  string message = 4;
+}
+
+message ValidateTokenRequest {
+  string token = 1;
+}
+
+// Request for GetMe
+message GetMeRequest {
+  string token = 1; // Token JWT dari pengguna
+}
+
+// Response for GetMe
+message GetMeResponse {
+  bool isValid = 1;     // Apakah token valid
+  bool isExpired = 2;   // Apakah token telah kedaluwarsa
+  uint64 userID = 3;    // ID pengguna
+  string username = 4;  // Nama pengguna
+  string role = 5;      // Peran pengguna
+}
+
+message ValidateTokenResponse {
+  bool is_valid = 1;
+  string user_id = 2;
+  string role = 3;
+}
+
+message SetMeRes {
+  bool is_exist = 1;
+  bool status = 2;
+}
+
+message RefreshTokenRequest {
+  string refresh_token = 1;
+  string user_id = 2;
+  string role = 3;
+}
+
+message RefreshTokenResponse {
+  string token = 1;
+}

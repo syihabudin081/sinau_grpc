@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="5e8da321-4b05-4e69-96e8-c8b1b48b841f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../belajar go fiber/controllers/product.controllers.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../belajar go fiber/controllers/user.controllers.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../belajar go fiber/database/database.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../belajar go fiber/database/migrations/migration.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../belajar go fiber/database/migrations/seed.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../belajar go fiber/main.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../belajar go fiber/middleware/middleware.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../belajar go fiber/models/gormModel.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../belajar go fiber/models/product.model.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../belajar go fiber/models/role.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../belajar go fiber/models/user.model.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../belajar go fiber/repositories/product.repository.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../belajar go fiber/repositories/user.repository.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../belajar go fiber/routes/routes.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../belajar go fiber/services/product.service.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../belajar go fiber/services/user.service.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../belajar go fiber/utils/Response.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../belajar go fiber/utils/jwt.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../belajar go fiber/utils/validation.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../belajar-elasticsearch/main.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../belajar-go-kafka/belajar-go-kafka-producer/main.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/provider.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proto/google/api/annotations.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proto/google/api/field_behavior.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proto/google/api/http.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proto/google/api/httpbody.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proto/google/protobuf/descriptor.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proto/google/protobuf/timestamp.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proto/google/type/date.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proto/protoc-gen-gorm/options/buf.gen.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proto/protoc-gen-gorm/options/gorm.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proto/protoc-gen-gorm/types/buf.gen.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proto/protoc-gen-gorm/types/types.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proto/service.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proto/service_gorm_db.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proto/service_payload.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/service/product_service.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../go api/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../go api/app/main.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../go api/config/config.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../go api/controller/user_controller.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../go api/dto/userDTO.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../go api/entity/base.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../go api/entity/user.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../go api/middleware/middleware.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../go api/repository/user_repository.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../go api/service/user_service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../myGram" beforeDir="false" afterPath="$PROJECT_DIR$/../myGram" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
+  </component>
+  <component name="GOROOT" url="file://C:/Program Files/Go" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="KubernetesApiPersistence">
+    <option name="context" value="docker-desktop" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectId" id="2pNYbOsS3TrDXKVskiHb65jdI4r" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/belajar golang/belajar-grpc/proto&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\belajar golang\belajar-grpc\proto" />
+      <recent name="D:\belajar golang\belajar-grpc\proto\libs" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\belajar golang\belajar-grpc\proto" />
+      <recent name="D:\belajar golang\belajar-grpc\proto\libs" />
+      <recent name="D:\belajar golang\belajar-grpc\proto\core_payload" />
+      <recent name="D:\belajar golang\belajar-grpc\proto\api_proto" />
+      <recent name="D:\belajar golang\belajar-grpc\proto\core_proto" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Makefile Target.generate">
+    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="product_service" />
+      <working_directory value="$PROJECT_DIR$" />
+      <go_parameters value="-i" />
+      <kind value="FILE" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
+      <module name="product_service" />
+      <working_directory value="$PROJECT_DIR$" />
+      <go_parameters value="-i" />
+      <kind value="DIRECTORY" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <method v="2" />
+    </configuration>
+    <configuration name="all" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="all" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
+    <configuration name="generate" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="generate" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
+    <configuration name="proto" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="proto" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
+    <configuration name="protoc" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="protoc" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Makefile Target.generate" />
+        <item itemvalue="Makefile Target.all" />
+        <item itemvalue="Makefile Target.proto" />
+        <item itemvalue="Makefile Target.protoc" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VgoProject">
+    <settings-migrated>true</settings-migrated>
+  </component>
+</project>

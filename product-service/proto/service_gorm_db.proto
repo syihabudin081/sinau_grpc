@@ -1,0 +1,64 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+import "google/api/field_behavior.proto";
+import "protoc-gen-gorm/options/gorm.proto";
+import "protoc-gen-gorm/types/types.proto";
+
+package product_service;
+option go_package = "./pb";
+
+message ProductORM {
+  option (gorm.opts) = {
+    ormable: true,
+    table: "products"
+  };
+
+  uint64 id = 1 [(gorm.field).tag = {
+    primary_key: true,
+    not_null: true
+  }];
+
+  string name = 2 [(gorm.field).tag = {unique: true}];
+  string description = 3;
+  float price = 4;
+  string currency = 5;
+  string category = 6;
+  string image = 7;
+  int32 stock = 8;
+  google.protobuf.Timestamp createdAt = 9 [
+    (google.api.field_behavior) = OUTPUT_ONLY,
+    (gorm.field).tag = {not_null: true}
+  ];
+  google.protobuf.Timestamp updatedAt = 10 [
+    (google.api.field_behavior) = OUTPUT_ONLY,
+    (gorm.field).tag = {not_null: true}
+  ];
+}
+
+message ProductTransactionORM {
+  option (gorm.opts) = {
+    ormable: true,
+    table: "product_transactions"
+  };
+
+  uint64 id = 1 [(gorm.field).tag = {
+    primary_key: true,
+    not_null: true
+  }];
+
+  uint64 productID = 2;
+  uint64 userID = 3;
+  uint32 quantity = 4;
+  string status = 5;
+  string note = 6;
+
+  google.protobuf.Timestamp createdAt = 7 [
+    (google.api.field_behavior) = OUTPUT_ONLY,
+    (gorm.field).tag = {not_null: true}
+  ];
+  google.protobuf.Timestamp updatedAt = 8 [
+    (google.api.field_behavior) = OUTPUT_ONLY,
+    (gorm.field).tag = {not_null: true}
+  ];
+}
+
