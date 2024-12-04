@@ -36,13 +36,25 @@ func (s *TransactionServiceHandler) AddTransaction(ctx context.Context, req *pb.
 	newCtx := metadata.NewOutgoingContext(context.Background(), md)
 	log.Print("New Context : ", newCtx)
 	res, err := s.productClient.GetProduct(newCtx, &productPB.GetProductRequest{ProductId: productIdStr})
+	// check the stock of the product
+	if res.Stock < req.Quantity {
+		return nil, status.Errorf(codes.NotFound, "product stock is not enough")
+	}
 	if err != nil {
 		return nil, status.Errorf(codes.NotFound, "product id not found: %v", err)
 	}
-	log.Print("Product With ID : %v Found With Response : %v", productIdStr, res)
+
 	resp, err := s.db.CreateTransaction(ctx, req)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to add transaction: %v", err)
+	}
+	updatedStock := res.Stock - req.Quantity
+	_, err = s.productClient.UpdateProduct(newCtx, &productPB.UpdateProductRequest{
+		ProductId: productIdStr,
+		Stock:     updatedStock,
+	})
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "failed to update stock: %v", err)
 	}
 	return resp, nil
 }
@@ -53,7 +65,6 @@ func (s *TransactionServiceHandler) ApproveTransaction(ctx context.Context, req 
 	if !ok {
 		return nil, status.Errorf(codes.Unauthenticated, "missing user role")
 	}
-
 	// check if the userRole is admin
 	if userRole != "admin" {
 		return nil, status.Errorf(codes.PermissionDenied, "only admin can access this....")
@@ -65,8 +76,7 @@ func (s *TransactionServiceHandler) ApproveTransaction(ctx context.Context, req 
 	return resp, nil
 }
 
-func (s *TransactionServiceHandler) GetTransaction(ctx context.Context, req *pb.GetTransactionRequest) (*pb.GetTransactionResponse, error) {
-
+func (s *TransactionServiceHandler) GetTransaction(ctx context.Context, req *pb.GetTransactionRequest) (*pb.ListTransactionResponse, error) {
 	resp, err := s.db.GetTransaction(ctx, req)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to get transaction: %v", err)

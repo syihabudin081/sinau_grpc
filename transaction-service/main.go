@@ -15,13 +15,13 @@ import (
 )
 
 func main() {
-	gormDB := db.ConnectDatabase()
-	if err := gormDB.AutoMigrate(&pb.TransactionORM{}); err != nil {
-		log.Fatalf("Failed to migrate database: %v", err)
-	}
+	postgresDB := db.ConnectDatabase()
+	//if err := postgresDB.AutoMigrate(&pb.TransactionORM{}); err != nil {
+	//	log.Fatalf("Failed to migrate database: %v", err)
+	//}
 
-	// Initialize GormProvider
-	dbProvider := db.NewTransactionProvider(gormDB)
+	// Initialize DB Provider
+	dbProvider := db.NewTransactionProvider(postgresDB)
 
 	// gRPC
 	authConn, err := grpc.NewClient(

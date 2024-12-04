@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"log"
 	"time"
 	"transaction-service/pb"
 )
@@ -17,104 +18,125 @@ func NewTransactionProvider(db *sql.DB) *TransactionProvider {
 }
 
 // GetTransaction fetches a transaction by its ID.
-func (p *TransactionProvider) GetTransaction(ctx context.Context, req *pb.GetTransactionRequest) (*pb.GetTransactionResponse, error) {
-	// Buat query builder dengan query dasar
-	qb := NewQueryBuilderNative("SELECT product_id, user_id, quantity, status, note, created_at, updated_at FROM transactions")
+func (p *TransactionProvider) GetTransaction(ctx context.Context, req *pb.GetTransactionRequest) (*pb.ListTransactionResponse, error) {
+	// Start building the query.
+	query := `
+        SELECT id, product_id, user_id, quantity, status, note, created_at, updated_at 
+        FROM transaction_orms 
+        WHERE 1=1 
+    `
+	var args []interface{}
+	argCount := 1
 
-	// Tambahkan filter secara dinamis
-	qb.Scope("id = ?", req.TransactionId).
-		Scope("status = ?", req.Status).
-		Scope("user_id = ?", ctx.Value("userID")).
-		OrderBy("created_at", "DESC").
-		Pagination(1, 0) // Ambil satu data
+	// Add filters based on the request parameters.
+	if req.GetTransactionId() != "" {
+		query += fmt.Sprintf(" AND id = $%d", argCount)
+		args = append(args, req.GetTransactionId())
+		argCount++
+	}
+	if req.GetStatus() != -1 {
+		query += fmt.Sprintf(" AND status = $%d", argCount)
+		args = append(args, req.GetStatus())
+		argCount++
+	}
 
-	query, args := qb.Build()
+	// Order by creation date.
+	query += ` ORDER BY created_at DESC;`
 
-	// Eksekusi query
-	row := p.db.QueryRowContext(ctx, query, args...)
-	var transaction pb.TransactionORM
-	var updatedAt sql.NullTime
-	if err := row.Scan(
-		&transaction.ProductId,
-		&transaction.UserId,
-		&transaction.Quantity,
-		&transaction.Status,
-		&transaction.Note,
-		&transaction.CreatedAt,
-		&updatedAt,
-	); err != nil {
+	// Execute the query to fetch the transactions.
+	rows, err := p.db.Query(query, args...)
+	if err != nil {
+		log.Printf("Error executing query: %v", err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	// Collect the results.
+	var transactions []*pb.GetTransactionResponse
+	for rows.Next() {
+		var transaction pb.GetTransactionResponse
+		var status int32
+		err := rows.Scan(
+			&transaction.TransactionId,
+			&transaction.ProductId,
+			&transaction.UserId,
+			&transaction.Quantity,
+			&status,
+			&transaction.Note,
+			&transaction.CreatedAt,
+			&transaction.UpdatedAt,
+		)
+		if err != nil {
+			log.Printf("Error scanning row: %v", err)
+			return nil, err
+		}
+
+		// Convert integer status to the enum.
+		transaction.Status = pb.Status(status)
+
+		// Add the transaction to the response list.
+		transactions = append(transactions, &transaction)
+	}
+
+	// Check for errors in row iteration.
+	if err := rows.Err(); err != nil {
+		log.Printf("Error iterating over rows: %v", err)
 		return nil, err
 	}
 
-	// Konversi hasil
-	transaction.UpdatedAt = nil
-	if updatedAt.Valid {
-		transaction.UpdatedAt = &updatedAt.Time
-	}
-
-	return &pb.GetTransactionResponse{
-		ProductId: transaction.ProductId,
-		UserId:    transaction.UserId,
-		Quantity:  transaction.Quantity,
-		Status:    transaction.Status,
-		Note:      transaction.Note,
-		CreatedAt: transaction.CreatedAt.String(),
-		UpdatedAt: transaction.UpdatedAt.String(),
+	// Return the list of transactions.
+	return &pb.ListTransactionResponse{
+		Transactions: transactions,
 	}, nil
 }
 
-func (p *TransactionProvider) CreateTransaction(ctx context.Context, req *pb.AddTransactionRequest) (*pb.AddTransactionResponse, error) {
-	// Validasi nilai status apakah sesuai dengan enum
-	if req.Status < pb.Status_STATUS_UNSPECIFIED || req.Status > pb.Status_STATUS_CANCELLED {
-		return nil, fmt.Errorf("invalid status value")
-	}
+func (p *TransactionProvider) CreateTransaction(ctx context.Context, transaction *pb.AddTransactionRequest) (*pb.AddTransactionResponse, error) {
 
-	// Ambil userID dari context
-	userID := ctx.Value("userID").(uint64)
+	// get user id from context
+	user_id := ctx.Value("userID").(uint64)
 
-	// Waktu sekarang
-	now := time.Now()
+	query := `
+		INSERT INTO transaction_orms (product_id, user_id, quantity, status, note, created_at, updated_at)
+		VALUES ($1, $2, $3, $4, $5, $6, $7)
+		RETURNING id;
+	`
 
-	// Membangun query menggunakan QueryBuilderNative
-	qb := NewQueryBuilderNative("INSERT INTO transactions (product_id, user_id, quantity, status, note, created_at, updated_at)").
-		Scope("?", req.ProductId).
-		Scope("?", userID).
-		Scope("?", req.Quantity).
-		Scope("?", req.Status).
-		Scope("?", req.Note).
-		Scope("?", now).
-		Scope("?", nil) // updated_at bisa NULL
-
-	// Membangun query dan args
-	query, args := qb.Build()
-
-	// Eksekusi query
-	_, err := p.db.ExecContext(ctx, query, args...)
+	var transactionID int64
+	err := p.db.QueryRow(query, transaction.ProductId, user_id, transaction.Quantity, transaction.Status, transaction.Note, time.Now(), time.Now()).Scan(&transactionID)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create transaction: %v", err)
+		log.Printf("Error adding transaction: %v", err)
+		return nil, err
 	}
-
+	log.Printf("Transaction added with ID: %d", transactionID)
 	return &pb.AddTransactionResponse{
 		Message: "Transaction added successfully",
 	}, nil
 }
 
 func (p *TransactionProvider) ApproveTransaction(ctx context.Context, req *pb.ApproveTransactionRequest) (*pb.ApproveTransactionResponse, error) {
-	// Buat query builder
-	qb := NewQueryBuilderNative("UPDATE transactions SET status = ?").
-		Scope("id = ?", req.TransactionId)
+	// Define the SQL query to update the transaction status.
+	query := `UPDATE transaction_orms SET status = $1 WHERE id = $2;`
 
-	query, args := qb.Build()
-
-	// Tambahkan nilai status
-	args = append([]interface{}{2}, args...) // Status = 2 (Approved)
-
-	// Eksekusi query
-	if _, err := p.db.ExecContext(ctx, query, args...); err != nil {
-		return nil, err
+	// Execute the query.
+	result, err := p.db.ExecContext(ctx, query, pb.Status_STATUS_COMPLETED, req.GetTransactionId())
+	if err != nil {
+		log.Printf("Error approving transaction: %v", err)
+		return nil, fmt.Errorf("failed to approve transaction: %w", err)
 	}
 
+	// Check if any rows were affected.
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		log.Printf("Error fetching rows affected: %v", err)
+		return nil, fmt.Errorf("failed to verify update: %w", err)
+	}
+
+	if rowsAffected == 0 {
+		return nil, fmt.Errorf("transaction with ID: %v not found or already updated", req.GetTransactionId())
+	}
+
+	// Return a success message.
 	return &pb.ApproveTransactionResponse{
-		Message: fmt.Sprintf("Transaction With ID: %v Approved", req.GetTransactionId()),
+		Message: fmt.Sprintf("Transaction with ID: %v approved successfully", req.GetTransactionId()),
 	}, nil
 }

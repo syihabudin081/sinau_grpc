@@ -1,15 +1,15 @@
 package db
 
 import (
+	"database/sql"
 	"fmt"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
+	_ "github.com/lib/pq"
 	"log"
 	"transaction-service/config"
 )
 
 // ConnectDatabase creates and returns a GORM database instance
-func ConnectDatabase() *gorm.DB {
+func ConnectDatabase() *sql.DB {
 	config.LoadEnv()
 
 	dsn := fmt.Sprintf(
@@ -22,7 +22,7 @@ func ConnectDatabase() *gorm.DB {
 		config.GetEnv("DB_SSLMODE", "disable"),
 	)
 
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err := sql.Open("postgres", dsn)
 	if err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}

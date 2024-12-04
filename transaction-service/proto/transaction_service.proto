@@ -18,9 +18,9 @@ service TransactionService {
     };
   }
 
-  rpc getTransaction (GetTransactionRequest) returns (GetTransactionResponse) {
+  rpc getTransaction (GetTransactionRequest) returns (ListTransactionResponse) {
     option (google.api.http) = {
-      get: "/v1/transaction/{transaction_id}"
+      get: "/v1/transaction"
     };
   }
 
@@ -30,9 +30,5 @@ service TransactionService {
     };
   }
 
-  rpc listTransaction (ListTransactionRequest) returns (ListTransactionResponse) {
-    option (google.api.http) = {
-      get: "/v1/transaction"
-    };
-  }
+
 }
